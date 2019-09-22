@@ -1,4 +1,5 @@
 {
+    "author": "Author Name",
     "module_name": "Module",
     "bundle_identifier": "com.module",
     "module_version": "1.0.0",
