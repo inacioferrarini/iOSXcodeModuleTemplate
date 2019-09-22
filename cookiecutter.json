@@ -1,0 +1,6 @@
+{
+    "module_name": "Module",
+    "bundle_identifier": "com.module",
+    "module_version": "1.0.0",
+    "ruby_version": "2.5.1"
+}
