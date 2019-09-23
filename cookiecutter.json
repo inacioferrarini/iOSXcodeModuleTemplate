@@ -1,6 +1,8 @@
 {
     "author": "Author Name",
     "module_name": "Module",
+    "module_summary": "Module Summary ...",
+    "github_name": "githubuser",
     "bundle_identifier": "com.module",
     "module_version": "1.0.0",
     "ruby_version": "2.5.1"
