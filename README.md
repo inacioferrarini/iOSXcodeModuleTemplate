@@ -10,6 +10,7 @@ A template for new Swift Module.
 - Readme
 - SwiftLint
 - Gemfile / Jazzy
+- Fastlane
 - MIT LICENSE
 - Testing Dependencies - Quick and Nimble
 
