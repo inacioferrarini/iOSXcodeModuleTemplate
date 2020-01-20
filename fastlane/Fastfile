@@ -1,23 +1,9 @@
-# This file contains the fastlane.tools configuration
-# You can find the documentation at https://docs.fastlane.tools
-#
-# For a list of all available actions, check out
-#
-#     https://docs.fastlane.tools/actions
-#
-# For a list of all available plugins, check out
-#
-#     https://docs.fastlane.tools/plugins/available-plugins
-#
-
-# Uncomment the line if you want fastlane to automatically update itself
-# update_fastlane
-
 fastlane_require 'dotenv'
 
 default_platform(:ios)
 
 platform :ios do
+
   desc "Generates documentation"
   lane :generate_docs do
     jazzy
@@ -27,8 +13,8 @@ platform :ios do
   lane :generate_reports do
     scan
     xcov(
-      project: "Flow.xcodeproj",
-      scheme: "Flow",
+      project: "{{cookiecutter.module_name}}.xcodeproj",
+      scheme: "{{cookiecutter.module_name}}",
       output_directory: "coverage_report",
       only_project_targets: "true"
     )
@@ -39,12 +25,15 @@ platform :ios do
     ensure_git_branch(
       branch: 'develop'
     )
-    ensure_git_status_clean
+    ensure_git_status_clean()
+    ensure_env_vars(
+      env_vars: ["GITHUB_API_TOKEN"]
+    )
     increment_build_number(
-      xcodeproj: "Flow.xcodeproj"
+      xcodeproj: "{{cookiecutter.module_name}}.xcodeproj"
     )
     increment_version_number(
-      xcodeproj: "Flow.xcodeproj"
+      xcodeproj: "{{cookiecutter.module_name}}.xcodeproj"
     )
     generate_docs
     generate_reports
@@ -55,8 +44,8 @@ platform :ios do
     )
     push_to_git_remote
     create_pull_request(
-  #    api_token: '#{ENV['GITHUB_API_TOKEN']}'
-      repo: "inacioferrarini/iOSFlowFramework",
+      api_token: ENV["GITHUB_API_TOKEN"],
+      repo: "{{cookiecutter.github_name}}/{{cookiecutter.module_name}}",
       title: "New Version"
     )
   end
@@ -67,8 +56,12 @@ platform :ios do
       branch: 'master'
     )
     ensure_git_status_clean
+    git_pull
+    version = get_version_number(
+      xcodeproj: "{{cookiecutter.module_name}}.xcodeproj"
+    )
     add_git_tag(
-      prefix: "v"
+      tag: "v#{version}"
     )
     push_git_tags
   end
